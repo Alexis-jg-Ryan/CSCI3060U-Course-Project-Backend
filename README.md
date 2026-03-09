@@ -161,7 +161,7 @@ This project follows Agile Development principles:
 
 ## 📚 Documentation
 
-- **Project specification**: See `to_be_added.pdf`
+- Comments added throughout project to document functional requirements implementations
 
 ---
 
