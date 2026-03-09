@@ -1,0 +1,1 @@
+# Transaction object to be created with method from_line to parse transaction text lines into transactions 
