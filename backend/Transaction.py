@@ -4,7 +4,7 @@ Transaction class for parsing bank transaction file lines.
 
 class Transaction:
     code = {
-        "01" : "withdrawal",
+        "01" : "withdraw",
         "02" : "transfer",
         "03" : "paybill",
         "04" : "deposit",
@@ -21,17 +21,16 @@ class Transaction:
         self.amount = amount
         self.misc = misc
 
-def from_line(line):
-    '''
-    Parses a 40-character transaction line and returns Transaction object.
-    '''
+    @classmethod
+    def from_line(cls, line):
+        '''
+        Parses a 40-character transaction line and returns Transaction object.
+        '''
 
-    code = line[0:2]
-    name = line[3:23]
-    account_num = int(line[24:29])
-    amount = float(line[30:38])
-    misc = line[39:41]
+        code = line[0:2].strip()
+        name = line[3:23].strip()
+        account_num = int(line[24:29].strip())
+        amount = float(line[30:38].strip())
+        misc = line[39:41].strip()
 
-    return Transaction(code, name, account_num, amount, misc)
-
-
+        return cls(code, name, account_num, amount, misc)

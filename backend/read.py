@@ -9,7 +9,7 @@ def read_old_bank_accounts(file_path):
     with open(file_path, 'r') as file:
         for line_num, line in enumerate(file, 1):
             clean_line = line.rstrip('\n')
-            
+
             # Validate line length (now 44 chars to include plan type)
             if len(clean_line) != 45:
                 print(f"ERROR: Fatal error - Line {line_num}: Invalid length ({len(clean_line)} chars, expected 45)")
@@ -17,8 +17,8 @@ def read_old_bank_accounts(file_path):
 
             try:
                 # Extract fields with positional validation
-                account_number = clean_line[0:4]
-                name = clean_line[6:25]  # 20 characters
+                account_number = clean_line[0:5]
+                name = clean_line[6:26].strip()  # 20 characters
                 status = clean_line[27]
                 balance_str = clean_line[29:37]  # 8 characters
                 transactions_str = clean_line[38:42]  # 4 characters
@@ -38,10 +38,10 @@ def read_old_bank_accounts(file_path):
                 if balance_str[0] == '-':
                     print(f"ERROR: Fatal error - Line {line_num}: Negative balance detected: {balance_str}")
                     continue
-                
-                if (len(balance_str) != 8 or 
-                    balance_str[5] != '.' or 
-                    not balance_str[:5].isdigit() or 
+
+                if (len(balance_str) != 8 or
+                    balance_str[5] != '.' or
+                    not balance_str[:5].isdigit() or
                     not balance_str[6:].isdigit()):
                     print(f"ERROR: Fatal error - Line {line_num}: Invalid balance format. Expected XXXXX.XX, got {balance_str}")
                     continue
@@ -82,3 +82,32 @@ def read_old_bank_accounts(file_path):
                 continue
 
     return accounts
+
+def read_transactions(file_path):
+    """
+    Reads the merged bank account transaction file and returns a list of
+    Transaction objects.
+    """
+    from Transaction import Transaction
+
+    transactions = []
+    try:
+        with open(file_path, 'r') as file:
+            for line_num, line in enumerate(file, 1):
+                clean_line = line.rstrip('\n')
+
+                if not clean_line.strip():
+                    continue  # skip blank lines
+
+                if len(clean_line) < 40:
+                    print(f"ERROR: Fatal error - Line {line_num}: Transaction line too short "
+                          f"({len(clean_line)} chars, expected 40) - file: {file_path}")
+                    raise SystemExit(1)
+
+                transactions.append(Transaction.from_line(clean_line))
+
+    except FileNotFoundError:
+        print(f"ERROR: Fatal error - File {file_path} - Merged transaction file not found")
+        raise SystemExit(1)
+
+    return transactions
