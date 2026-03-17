@@ -1,3 +1,4 @@
 00001 broke test           A 00499.95 SP
-00002 boss test            A 99999.99 NP
+00002 boss test            A 99799.89 NP
+00003 new test             A 01000.00 SP
 00000 END_OF_FILE          A 00000.00 NP
