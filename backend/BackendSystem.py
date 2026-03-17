@@ -5,6 +5,12 @@ from read import read_old_bank_accounts, read_transactions
 from write import write_new_current_accounts, write_new_master_accounts
 from print_error import log_constraint_error
 
+'''
+Backend System for the bank application
+This backend system loads the accounts and applies the required
+transacitons from the input files onto the output files.
+'''
+
 class BackendSystem:
     def __init__(self, master_accounts_path, merged_transactions_path, output_current_path, output_master_path):
         self.master_accounts_path = master_accounts_path
