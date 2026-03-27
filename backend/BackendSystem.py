@@ -1,4 +1,4 @@
-from enum import nonmember
+# from enum import nonmember
 
 from Transaction import Transaction
 from read import read_old_bank_accounts, read_transactions
@@ -40,6 +40,10 @@ class BackendSystem:
     Return the account dictionary matching account_number
     '''
     def find_account(self, account_number):
+        # Check if account number is valid
+        if account_number is None:
+            return None
+
         target = str(int(account_number))
         for account in self.accounts:
             if str(int(account['account_number'])) == target:

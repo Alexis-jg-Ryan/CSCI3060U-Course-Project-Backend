@@ -7,8 +7,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'backend'))
 
 import pytest
-from BackendSystem import BackendSystem
-from Transaction import Transaction
+from backend.BackendSystem import BackendSystem #
+from backend.Transaction import Transaction #
 
 
 class TestApplyChangePlan:
