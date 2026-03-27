@@ -37,6 +37,15 @@ class TestFindAccount:
             'plan': 'NP'
         }
 
+        self.account_jd = {
+            'account_number': '54333',
+            'name': ' Jane Doe',
+            'status': 'A',
+            'balance': 20.00,
+            'total_transactions': 0,
+            'plan': 'NP'
+        }
+
         self.backend.accounts = [self.account_sp, self.account_np]
 
     def test_tc1_none_input(self):
@@ -50,21 +59,34 @@ class TestFindAccount:
         # this case also covers the for loop never running
         self.backend.accounts = []
         result = self.backend.find_account(9999)
-        self.backend.accounts = [self.account_sp, self.account_np] # set back to default after test
         assert result is None
 
 
     def test_tc3_account_exists(self):
         # pass a valid number, and ensure the account list has accounts
         # loop is run ONCE because this is the first account in the list
+        self.backend.accounts = [self.account_sp] # Assure account list has len 1
         result = self.backend.find_account(12345)
+
         assert result is not None
         assert result['account_number'] == '12345'
 
-    def test_tc4_account_not_found(self):
+    def test_tc4_account_found_after_2_loops(self):
+        # pass a valid number, and ensure the account list has accounts
+        # the valid number is second on the list, ensuring that the for loop will run twice
+        result = self.backend.find_account(54321)
+
+        assert result is not None
+        assert result['account_number'] == '54321'
+
+
+    def test_tc5_account_not_found(self):
         # pass a valid number, and ensure the account list has accounts
         # however, the valid number does not belong to an account in the account list
         # loop is run MULTIPLE TIMES because it will never find the account
+        # ensure that the account list has 3 accounts (ensuring 2+ loops)
+
+        self.backend.accounts = [self.account_sp, self.account_np, self.account_jd]
         result = self.backend.find_account(9999)
         assert result is None
 
